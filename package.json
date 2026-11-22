@@ -2,6 +2,6 @@
   "name": "sigaji-app",
   "private": true,
   "type": "module",
-  "scripts": { "dev": "wrangler pages dev public", "test": "node --test test/*.test.js" },
+  "scripts": { "dev": "wrangler dev", "test": "node --test test/*.test.js" },
   "devDependencies": { "wrangler": "^4" }
 }

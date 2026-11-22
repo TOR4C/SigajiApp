@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import '../public/js/cloud.js';
-import { seal, unseal } from '../functions/api/[[path]].js';
+import { seal, unseal } from '../src/worker.js';
 const { merge, stamp } = globalThis.Cloud;
 const base = () => ({ positions: [], employees: [], holidays: [], kasbon: [], bonuses: [], attendance: [], _tomb: {}, profile: { name: 'A' } });
 

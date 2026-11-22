@@ -1,6 +1,12 @@
-name = "sigaji-app"
-compatibility_date = "2026-11-23"
-pages_build_output_dir = "./public"
-# Secret (JANGAN di file ini): GOOGLE_CLIENT_SECRET, SESSION_SECRET  -> dashboard Pages / .dev.vars
+name = "sigaji-app"            # HARUS sama dengan nama Worker/project di dashboard Cloudflare
+main = "src/worker.js"
+compatibility_date = "2025-01-01"
+
+[assets]
+directory = "./public"
+run_worker_first = ["/api/*"]  # /api/* ke Worker, sisanya file statis
+not_found_handling = "single-page-application"
+
+# Secret (JANGAN di file ini): GOOGLE_CLIENT_SECRET, SESSION_SECRET -> dashboard Cloudflare / .dev.vars
 [vars]
 GOOGLE_CLIENT_ID = "ISI_CLIENT_ID.apps.googleusercontent.com"
