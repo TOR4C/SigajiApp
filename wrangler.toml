@@ -1,5 +1,5 @@
 name = "sigaji-app"
-compatibility_date = "2025-01-01"
+compatibility_date = "2026-11-23"
 pages_build_output_dir = "./public"
 # Secret (JANGAN di file ini): GOOGLE_CLIENT_SECRET, SESSION_SECRET  -> dashboard Pages / .dev.vars
 [vars]
