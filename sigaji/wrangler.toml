@@ -1,6 +1,0 @@
-name = "sigaji-app"
-compatibility_date = "2025-01-01"
-pages_build_output_dir = "./public"
-# Secret (JANGAN di file ini): GOOGLE_CLIENT_SECRET, SESSION_SECRET  -> dashboard Pages / .dev.vars
-[vars]
-GOOGLE_CLIENT_ID = "ISI_CLIENT_ID.apps.googleusercontent.com"
