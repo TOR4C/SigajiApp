@@ -11,6 +11,7 @@ body .rounded-2xl{border-radius:22px}body .rounded-xl{border-radius:14px}
 /* form */
 body input:not([type=checkbox]),body select,body textarea{background:var(--field);border:2px solid transparent;border-radius:12px;padding:.6rem .8rem;transition:border-color .15s,background .15s}
 body input:focus,body select:focus,body textarea:focus{outline:0;background:#fff;border-color:var(--violet)}
+body #emp-search{padding-left:2.5rem}
 body .bg-primary{background:var(--violet)}body .bg-primary:hover{background:var(--violet-d)}
 body .text-primary{color:var(--violet)}body .shadow-primary\/30,body .shadow-indigo-500\/30{box-shadow:0 10px 22px -10px var(--violet)}
 
