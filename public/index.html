@@ -219,14 +219,14 @@
 
                 <div class="relative mb-6">
                     <i class="fa-solid fa-search absolute left-4 top-3.5 text-gray-400"></i>
-                    <input type="text" id="emp-search" placeholder="Cari nama atau NIK..." class="w-full pl-10 pr-4 py-3 rounded-xl border-none shadow-sm focus:ring-2 focus:ring-primary/50" onkeyup="renderEmployees()">
+                    <input type="text" id="emp-search" placeholder="Cari nama atau NIK..." class="w-full pl-10 pr-4 py-3 rounded-xl border-none shadow-sm focus:ring-2 focus:ring-primary/50" oninput="renderEmployees()">
                 </div>
 
                 <!-- Active Filter Tabs -->
-                <div class="flex gap-2 mb-4 overflow-x-auto pb-2">
-                    <button class="px-4 py-1.5 rounded-full text-xs font-bold bg-dark text-white whitespace-nowrap">Semua</button>
-                    <button class="px-4 py-1.5 rounded-full text-xs font-bold bg-white text-gray-500 border border-gray-200 whitespace-nowrap">Aktif</button>
-                    <button class="px-4 py-1.5 rounded-full text-xs font-bold bg-white text-gray-500 border border-gray-200 whitespace-nowrap">Non-Aktif</button>
+                <div class="flex gap-2 mb-4 overflow-x-auto pb-2" id="emp-filter-tabs">
+                    <button type="button" data-filter="all" onclick="setEmpFilter('all')" class="emp-filter-btn px-4 py-1.5 rounded-full text-xs font-bold bg-dark text-white whitespace-nowrap">Semua</button>
+                    <button type="button" data-filter="active" onclick="setEmpFilter('active')" class="emp-filter-btn px-4 py-1.5 rounded-full text-xs font-bold bg-white text-gray-500 border border-gray-200 whitespace-nowrap">Aktif</button>
+                    <button type="button" data-filter="inactive" onclick="setEmpFilter('inactive')" class="emp-filter-btn px-4 py-1.5 rounded-full text-xs font-bold bg-white text-gray-500 border border-gray-200 whitespace-nowrap">Non-Aktif</button>
                 </div>
 
                 <div id="emp-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
@@ -376,6 +376,7 @@
                         <div><label class="text-xs font-bold text-gray-400">Status</label><select id="emp-status" class="w-full p-3 bg-gray-50 rounded-xl border-none mt-1"><option value="active">Aktif</option><option value="inactive">Non-Aktif</option></select></div>
                     </div>
                     <div><label class="text-xs font-bold text-gray-400">No. HP</label><input type="text" id="emp-phone" class="w-full p-3 bg-gray-50 rounded-xl border-none mt-1"></div>
+                    <div><label class="text-xs font-bold text-gray-400">Alamat</label><input type="text" id="emp-addr" placeholder="Alamat lengkap" class="w-full p-3 bg-gray-50 rounded-xl border-none mt-1"></div>
                     <div class="bg-blue-50 p-4 rounded-xl">
                         <p class="text-xs font-bold text-blue-600 mb-2 uppercase">Rekening</p>
                         <div class="grid grid-cols-2 gap-3">
@@ -405,6 +406,7 @@
                     <div class="flex justify-between"><span>Bergabung</span><span class="font-medium text-dark" id="detail-join">-</span></div>
                     <div class="flex justify-between"><span>Masa Kerja</span><span class="font-medium text-dark" id="detail-tenure">-</span></div>
                     <div class="flex justify-between"><span>No. HP</span><span class="font-medium text-dark" id="detail-phone">-</span></div>
+                    <div class="flex justify-between gap-4"><span>Alamat</span><span class="font-medium text-dark text-right" id="detail-addr">-</span></div>
                     <div class="bg-gray-50 p-3 rounded-xl mt-2">
                         <div class="flex justify-between text-xs text-gray-500 mb-1"><span>Bank</span><span id="detail-bank">-</span></div>
                         <div class="flex justify-between font-mono font-bold text-dark"><span>Rek</span><span id="detail-rek">-</span></div>
