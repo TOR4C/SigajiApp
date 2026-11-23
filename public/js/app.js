@@ -177,6 +177,18 @@ function renderDashboard() {
 }
 
 // --- EMPLOYEE MANAGEMENT (Card Style) ---
+let empFilter = 'all';
+function setEmpFilter(status) {
+    empFilter = status;
+    document.querySelectorAll('.emp-filter-btn').forEach(btn => {
+        const active = btn.dataset.filter === status;
+        btn.className = active
+            ? 'emp-filter-btn px-4 py-1.5 rounded-full text-xs font-bold bg-dark text-white whitespace-nowrap'
+            : 'emp-filter-btn px-4 py-1.5 rounded-full text-xs font-bold bg-white text-gray-500 border border-gray-200 whitespace-nowrap';
+    });
+    renderEmployees();
+}
+
 function openEmpModal(mode, id = null) {
     const modal = document.getElementById('modal-emp');
     modal.classList.remove('hidden');
@@ -189,13 +201,14 @@ function openEmpModal(mode, id = null) {
             document.getElementById('modal-emp-title').innerText = "Edit Karyawan";
             document.getElementById('emp-id').value = emp.id;
             document.getElementById('emp-nik').value = emp.nik || '';
-            document.getElementById('emp-name').value = emp.name;
-            document.getElementById('emp-join').value = emp.join;
+            document.getElementById('emp-name').value = emp.name || '';
+            document.getElementById('emp-join').value = emp.join || '';
             document.getElementById('emp-gender').value = emp.gender || 'L';
-            document.getElementById('emp-pos').value = emp.posId;
+            document.getElementById('emp-pos').value = emp.posId || '';
             document.getElementById('emp-status').value = emp.status || 'active';
-            document.getElementById('emp-phone').value = emp.phone;
-            document.getElementById('emp-addr').value = emp.addr;
+            document.getElementById('emp-phone').value = emp.phone || '';
+            const addrEl = document.getElementById('emp-addr');
+            if(addrEl) addrEl.value = emp.addr || '';
             document.getElementById('emp-bank-name').value = emp.bankName || '';
             document.getElementById('emp-bank-acc').value = emp.bankAcc || '';
         }
@@ -203,6 +216,9 @@ function openEmpModal(mode, id = null) {
         document.getElementById('modal-emp-title').innerText = "Tambah Karyawan";
         document.getElementById('emp-id').value = '';
         document.querySelectorAll('#modal-emp input').forEach(i => i.value = '');
+        document.getElementById('emp-join').value = new Date().toISOString().split('T')[0];
+        document.getElementById('emp-gender').value = 'L';
+        document.getElementById('emp-pos').value = '';
         document.getElementById('emp-status').value = 'active';
     }
 }
@@ -210,43 +226,62 @@ function closeEmpModal() { document.getElementById('modal-emp').classList.add('h
 
 function saveEmployee() {
     const id = document.getElementById('emp-id').value;
+    const addrEl = document.getElementById('emp-addr');
     const data = {
         id: id || generateId(),
-        nik: document.getElementById('emp-nik').value,
-        name: document.getElementById('emp-name').value,
+        nik: document.getElementById('emp-nik').value.trim(),
+        name: document.getElementById('emp-name').value.trim(),
         join: document.getElementById('emp-join').value,
         gender: document.getElementById('emp-gender').value,
         posId: document.getElementById('emp-pos').value,
         status: document.getElementById('emp-status').value,
-        phone: document.getElementById('emp-phone').value,
-        addr: document.getElementById('emp-addr').value,
-        bankName: document.getElementById('emp-bank-name').value,
-        bankAcc: document.getElementById('emp-bank-acc').value
+        phone: document.getElementById('emp-phone').value.trim(),
+        addr: addrEl ? addrEl.value.trim() : '',
+        bankName: document.getElementById('emp-bank-name').value.trim(),
+        bankAcc: document.getElementById('emp-bank-acc').value.trim()
     };
+    if (!db.positions.length) return alert('Buat data Jabatan terlebih dahulu di menu Jabatan');
     if (!data.name || !data.posId || !data.join) return alert('Nama, Jabatan, dan Tgl Masuk wajib diisi');
-    if(id) { const idx = db.employees.findIndex(e => e.id === id); if(idx !== -1) db.employees[idx] = data; } 
-    else { db.employees.push(data); }
+    if(id) {
+        const idx = db.employees.findIndex(e => e.id === id);
+        if(idx !== -1) db.employees[idx] = { ...db.employees[idx], ...data };
+    } else {
+        db.employees.push(data);
+    }
     save(); renderEmployees(); closeEmpModal();
 }
 
 function renderEmployees() {
-    const search = document.getElementById('emp-search').value.toLowerCase();
-    // Filter logic here if needed (omitted for brevity, assume all)
-    const filtered = db.employees.filter(e => e.name.toLowerCase().includes(search));
+    const search = (document.getElementById('emp-search').value || '').trim().toLowerCase();
+    const filtered = db.employees.filter(e => {
+        const status = e.status || 'active';
+        if (empFilter !== 'all' && status !== empFilter) return false;
+        if (!search) return true;
+        return (e.name || '').toLowerCase().includes(search) || (e.nik || '').toLowerCase().includes(search);
+    });
 
-    document.getElementById('emp-list').innerHTML = filtered.map(e => {
+    const listEl = document.getElementById('emp-list');
+    if (!filtered.length) {
+        listEl.innerHTML = `<div class="col-span-full bg-white p-8 rounded-2xl border border-gray-100 text-center text-sm text-gray-400">${db.employees.length ? 'Karyawan tidak ditemukan.' : 'Belum ada data karyawan. Klik tombol Tambah untuk menambahkan.'}</div>`;
+        updateSelectOptions();
+        return;
+    }
+
+    listEl.innerHTML = filtered.map(e => {
         const pos = db.positions.find(p => p.id === e.posId) || { title: '?' };
         const isActive = (e.status || 'active') === 'active';
         const statusDot = isActive ? 'bg-green-500' : 'bg-red-500';
+        const initial = (e.name || '?').charAt(0).toUpperCase();
+        const sub = e.nik ? `${esc(pos.title)} · ${esc(e.nik)}` : esc(pos.title);
         
         return `
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group hover:shadow-md transition">
             <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-indigo-500/10 to-transparent rounded-bl-full -mr-4 -mt-4"></div>
             <div class="flex items-center gap-4 mb-3">
-                <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-bold text-lg">${esc(e.name.charAt(0))}</div>
+                <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-bold text-lg">${esc(initial)}</div>
                 <div>
                     <h4 class="font-bold text-dark text-sm">${esc(e.name)}</h4>
-                    <p class="text-xs text-gray-500">${esc(pos.title)}</p>
+                    <p class="text-xs text-gray-500">${sub}</p>
                 </div>
             </div>
             <div class="flex justify-between items-center border-t border-gray-50 pt-3">
@@ -255,8 +290,9 @@ function renderEmployees() {
                     <span class="text-xs text-gray-400 font-medium">${isActive?'Aktif':'Non-Aktif'}</span>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="viewEmployee('${e.id}')" class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center hover:bg-indigo-100"><i class="fa-solid fa-eye text-xs"></i></button>
-                    <button onclick="openEmpModal('edit', '${e.id}')" class="w-8 h-8 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center hover:bg-yellow-100"><i class="fa-solid fa-pen text-xs"></i></button>
+                    <button onclick="viewEmployee('${e.id}')" class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center hover:bg-indigo-100" title="Detail"><i class="fa-solid fa-eye text-xs"></i></button>
+                    <button onclick="openEmpModal('edit', '${e.id}')" class="w-8 h-8 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center hover:bg-yellow-100" title="Edit"><i class="fa-solid fa-pen text-xs"></i></button>
+                    <button onclick="deleteItem('employees', '${e.id}')" class="w-8 h-8 rounded-lg bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100" title="Hapus"><i class="fa-solid fa-trash text-xs"></i></button>
                 </div>
             </div>
         </div>`;
@@ -267,20 +303,26 @@ function renderEmployees() {
 function viewEmployee(id) {
     const emp = db.employees.find(e => e.id === id); if(!emp) return;
     const pos = db.positions.find(p => p.id === emp.posId) || { title: '-', salary: 0, meal: 0 };
-    const diff = Math.ceil(Math.abs(new Date() - new Date(emp.join)) / (1000 * 60 * 60 * 24));
-    const tenure = diff > 365 ? `${Math.floor(diff/365)} tahun` : `${diff} hari`;
+    const joinDate = emp.join ? new Date(emp.join) : null;
+    let tenure = '-';
+    if (joinDate && !isNaN(joinDate.getTime())) {
+        const diff = Math.ceil(Math.abs(new Date() - joinDate) / (1000 * 60 * 60 * 24));
+        tenure = diff > 365 ? `${Math.floor(diff/365)} tahun` : `${diff} hari`;
+    }
     const isActive = (emp.status || 'active') === 'active';
 
-    document.getElementById('detail-avatar').innerText = emp.name.charAt(0);
-    document.getElementById('detail-name').innerText = emp.name;
+    document.getElementById('detail-avatar').innerText = (emp.name || '?').charAt(0).toUpperCase();
+    document.getElementById('detail-name').innerText = emp.name || '-';
     document.getElementById('detail-job').innerText = pos.title;
     const badge = document.getElementById('detail-status-badge');
     badge.innerText = isActive ? 'Aktif' : 'Non-Aktif';
     badge.className = isActive ? 'mt-2 inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-green-100 text-green-700' : 'mt-2 inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-red-100 text-red-700';
 
-    document.getElementById('detail-join').innerText = emp.join;
+    document.getElementById('detail-join').innerText = emp.join || '-';
     document.getElementById('detail-tenure').innerText = tenure;
     document.getElementById('detail-phone').innerText = emp.phone || '-';
+    const detailAddr = document.getElementById('detail-addr');
+    if (detailAddr) detailAddr.innerText = emp.addr || '-';
     document.getElementById('detail-bank').innerText = emp.bankName || '-';
     document.getElementById('detail-rek').innerText = emp.bankAcc || '-';
     document.getElementById('detail-salary').innerText = formatRp(pos.salary);
