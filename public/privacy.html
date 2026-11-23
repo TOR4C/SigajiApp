@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kebijakan Privasi - SiGaji</title>
+<link rel="stylesheet" href="/css/legal.css">
+</head>
+<body>
+<main>
+<nav><a href="/">SiGaji</a><a href="/terms">Ketentuan Layanan</a></nav>
+<h1>Kebijakan Privasi</h1>
+<p class="meta">Terakhir diperbarui: 23 November 2026</p>
+
+<p class="note">Data gaji dan karyawan Anda disimpan di perangkat Anda dan di Google Drive Anda sendiri. Kami tidak punya database pengguna dan tidak menyimpan data usaha Anda di server kami.</p>
+
+<h2>Siapa kami</h2>
+<p>SiGaji adalah aplikasi web untuk mencatat absensi, bonus, kasbon, dan menghitung gaji karyawan. Aplikasi ini dikelola oleh NAMA_PENGELOLA ("kami"). Kontak: EMAIL_KONTAK.</p>
+
+<h2>Data yang diproses</h2>
+<ul>
+<li><b>Informasi akun Google</b> (nama dan alamat email), hanya jika Anda memilih masuk dengan Google. Dipakai untuk menampilkan akun mana yang tersambung.</li>
+<li><b>Data usaha yang Anda masukkan</b>: profil usaha, jabatan, data karyawan (termasuk NIK, nomor HP, alamat, dan rekening bank jika Anda mengisinya), absensi, hari libur, bonus, kasbon, dan hasil penggajian.</li>
+<li><b>Token akses Google</b> berupa refresh token, untuk mengakses folder aplikasi di Drive Anda atas nama Anda.</li>
+</ul>
+
+<h2>Izin Google yang diminta</h2>
+<ul>
+<li><code>drive.appdata</code>: membaca dan menulis satu file data aplikasi (<code>sigaji-db.json</code>) di folder tersembunyi milik aplikasi di Drive Anda. Izin ini tidak memberi akses ke file lain di Drive Anda.</li>
+<li><code>email</code> dan <code>profile</code>: menampilkan nama dan email akun Anda.</li>
+</ul>
+
+<h2>Cara kami menggunakan data</h2>
+<p>Data hanya dipakai untuk menjalankan fitur aplikasi: menyimpan dan menyinkronkan data Anda antar perangkat. Kami tidak menjual data, tidak membagikannya untuk iklan, dan tidak menggunakannya untuk melatih model apa pun.</p>
+<p>Penggunaan dan pengalihan informasi yang diterima dari Google API oleh SiGaji mematuhi <a href="https://developers.google.com/terms/api-services-user-data-policy">Kebijakan Data Pengguna Layanan Google API</a>, termasuk persyaratan Penggunaan Terbatas (Limited Use).</p>
+
+<h2>Di mana data disimpan</h2>
+<ul>
+<li><b>Di perangkat Anda</b>: browser menyimpan salinan data (localStorage) agar aplikasi tetap bisa dipakai tanpa internet.</li>
+<li><b>Di Google Drive Anda</b>: file data aplikasi, jika Anda masuk dengan Google.</li>
+<li><b>Di server kami</b>: tidak ada data usaha yang disimpan. Saat sinkronisasi, data melewati server Worker kami hanya untuk diteruskan ke Google Drive, lalu tidak disimpan. Refresh token disimpan terenkripsi di cookie browser Anda, bukan di database kami.</li>
+</ul>
+
+<h2>Cookie dan penyimpanan lokal</h2>
+<ul>
+<li><code>sg_s</code>: sesi masuk terenkripsi, HttpOnly, berlaku sampai 180 hari atau sampai Anda keluar.</li>
+<li><code>sg_o</code>: penanda keamanan saat proses masuk, berlaku 10 menit.</li>
+<li>localStorage dan cache aplikasi: data dan berkas aplikasi untuk penggunaan offline.</li>
+</ul>
+<p>Kami tidak memakai cookie iklan atau pelacak analitik.</p>
+
+<h2>Pihak ketiga</h2>
+<ul>
+<li><b>Google</b>: autentikasi dan penyimpanan Drive.</li>
+<li><b>Cloudflare</b>: hosting aplikasi dan server Worker. Cloudflare dapat mencatat data teknis seperti alamat IP dan waktu akses sesuai kebijakannya sendiri.</li>
+<li><b>Penyedia pustaka dan font</b> (Tailwind CSS, Font Awesome, jsPDF, Google Fonts): browser Anda memuat berkas dari server mereka, sehingga mereka dapat menerima alamat IP dan jenis browser Anda. Data usaha Anda tidak dikirim ke mereka.</li>
+</ul>
+
+<h2>Data karyawan Anda</h2>
+<p>Jika Anda memasukkan data pribadi karyawan, Anda bertanggung jawab memastikan pengumpulan dan penggunaannya sah, termasuk memberi tahu dan, bila perlu, meminta persetujuan karyawan sesuai peraturan yang berlaku di Indonesia, seperti UU Pelindungan Data Pribadi.</p>
+
+<h2>Kontrol dan penghapusan data</h2>
+<ul>
+<li><b>Keluar</b>: tombol Keluar di halaman Data menghapus sesi dari browser.</li>
+<li><b>Cabut akses</b>: buka <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>, pilih SiGaji, lalu hapus akses.</li>
+<li><b>Hapus data di Drive</b>: pada halaman akses yang sama, pilih SiGaji lalu hapus data aplikasi yang tersimpan di Drive.</li>
+<li><b>Hapus data di perangkat</b>: hapus data situs ini lewat pengaturan browser.</li>
+</ul>
+<p>Karena kami tidak menyimpan data Anda di server, penghapusan di langkah-langkah di atas menghapus data tersebut sepenuhnya.</p>
+
+<h2>Keamanan</h2>
+<p>Koneksi memakai HTTPS. Token disimpan terenkripsi dan tidak dapat dibaca oleh skrip di halaman. Tidak ada sistem yang sepenuhnya bebas risiko; jaga akun Google dan perangkat Anda, dan buat cadangan lewat tombol Unduh.</p>
+
+<h2>Anak-anak</h2>
+<p>Layanan ini ditujukan untuk pelaku usaha dan tidak ditujukan untuk anak-anak.</p>
+
+<h2>Perubahan kebijakan</h2>
+<p>Jika kebijakan ini berubah, versi terbaru akan dipublikasikan di halaman ini dengan tanggal pembaruan baru.</p>
+
+<h2>Kontak</h2>
+<p>Pertanyaan tentang privasi: EMAIL_KONTAK.</p>
+
+<footer>SiGaji</footer>
+</main>
+</body>
+</html>
