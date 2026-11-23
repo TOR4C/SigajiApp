@@ -10,3 +10,7 @@ not_found_handling = "single-page-application"
 # Secret (JANGAN di file ini): GOOGLE_CLIENT_SECRET, SESSION_SECRET -> dashboard Cloudflare / .dev.vars
 [vars]
 GOOGLE_CLIENT_ID = "667457660986-cb6jr84g7q46gg5ecfqm5k87tdr2nj5b.apps.googleusercontent.com"
+GOOGLE_CLIENT_ID = "667457660986-cb6jr84g7q46gg5ecfqm5k87tdr2nj5b.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET = "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"
+SESSION_SECRET = "fafeec9606e663032e6998dc1f41b1f864d6d9a964ed0bd6c0ff9503d30094e9"
+
